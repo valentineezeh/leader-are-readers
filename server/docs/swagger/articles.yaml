@@ -1,0 +1,147 @@
+paths:
+  /articles/:
+    post:
+      tags:
+        - Articles
+      summary: creates a new article
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        description: authorization token
+        type: string
+      - in: body
+        name: create article
+        description: It enables a user to create an article
+        schema:
+          $ref: '#/definitions/createArticle'
+      responses:
+        201:
+          description: An object with article details
+    get:
+      tags:
+        - Articles
+      summary: get all articles
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: limit
+        description: Set the limit for each returned users
+      - in: query
+        name: page
+        description: Set the page for each returned users
+      - in: query
+        name: order
+        description: Set the order for each returned users
+      responses:
+        200:
+          description: An object with articles details
+  /articles/feed:
+    get:
+      tags:
+        - Articles
+      summary: get all the articles of an author the user follows
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        description: authorization token
+        type: string
+      - in: query
+        name: limit
+        description: Set the limit for each returned users
+      - in: query
+        name: page
+        description: Set the page for each returned users
+      responses:
+        200:
+          description: An object with articles details
+        401:
+          description: Unauthorized user
+  /articles/{slug}:
+    get:
+      tags:
+        - Articles
+      summary: get a single articles
+      produces:
+      - application/json
+      parameters:
+      - name: slug
+        in: path
+        description: path parameter takes the article slug
+        type: string
+      responses:
+        200:
+          description: An object with an articles details
+    put:
+      tags:
+        - Articles
+      summary: update articles you created
+      produces:
+      - application/json
+      parameters:
+      - name: slug
+        in: path
+        description: path parameter takes the article slug
+        type: slug
+      - name: authorization
+        in: header
+        description: authorization token
+        type: string
+      - in: body
+        name: update an article
+        description: It enables users to update an article
+        schema:
+          $ref: '#/definitions/updateArticle'
+      responses:
+        200:
+          description: A message with status of the update
+    delete:
+      tags:
+        - Articles
+      summary: delete articles you created
+      produces:
+      - application/json
+      parameters:
+      - name: slug
+        in: path
+        description: path parameter takes the article slug
+        type: string
+      - name: authorization
+        in: header
+        description: authorization token
+        type: string
+      - in: body
+        name: delete an article
+        description: It enables users to delete an article
+      responses:
+        200:
+          description: A message with status of the delete
+definitions:
+  createArticle:
+    type: object
+    properties:
+      title:
+        type: string
+      body:
+        type: string
+      description:
+        type: string
+      tagList:
+        type: array
+        items:
+          type: string
+  updateArticle:
+    type: object
+    properties:
+      title:
+        type: string
+      body:
+        type: string
+      tagList:
+        type: array
+        items:
+          type: string
